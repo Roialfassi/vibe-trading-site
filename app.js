@@ -1,6 +1,10 @@
-// This placeholder will be replaced by our secure deployment process.
-// It is essential that this line is exactly as written.
-// const firebaseConfig = __FIREBASE_CONFIG__;
+// This placeholder, __FIREBASE_CONFIG__, will be found and replaced by the
+// GitHub Action during the automated deployment process.
+// Your secret value is securely injected here, ONLY on the server,
+// before the files are sent to GitHub Pages.
+const firebaseConfig = __FIREBASE_CONFIG__;
+
+// --- DO NOT CHANGE ANYTHING BELOW THIS LINE ---
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -15,13 +19,13 @@ const confidenceFilter = document.getElementById('confidenceFilter');
 const resetFiltersBtn = document.getElementById('resetFiltersBtn');
 
 let allPredictions = [];
-const KNOWN_PROVIDERS = ['gemini', 'claude', 'gpt'];
+const KNOWN_PROVIDERS = ['gemini', 'claude', 'gpt']; // Case-insensitive list
 
 function displayPredictions(predictions) {
     predictionsGrid.innerHTML = '';
     
     if (predictions.length === 0) {
-        predictionsGrid.innerHTML = `<p style="text-align:center;">No predictions match the selected filters.</p>`;
+        predictionsGrid.innerHTML = `<p style="text-align:center; grid-column: 1 / -1;">No predictions match the selected filters.</p>`;
         return;
     }
 
@@ -45,16 +49,18 @@ function displayPredictions(predictions) {
         // If the provider is UNKNOWN, dynamically display all its data.
         if (providerClass === 'provider-generic') {
             cardBodyHTML = '<div class="card-body">';
-            // Loop through all data fields from Firestore for this document
             for (const key in predData) {
-                // Skip fields we don't want to list generically
+                // Skip fields we don't want to list generically as they are handled elsewhere
                 if (key !== 'id' && key !== 'ticker') {
                     let value = predData[key];
                     // Format Firestore Timestamps nicely
                     if (value && typeof value.toDate === 'function') {
                         value = value.toDate().toLocaleDateString();
                     }
-                    cardBodyHTML += `<p><strong>${key}:</strong> ${value}</p>`;
+                    // Sanitize value to prevent HTML injection
+                    const sanitizedValue = document.createElement('div');
+                    sanitizedValue.textContent = value;
+                    cardBodyHTML += `<p><strong>${key}:</strong> ${sanitizedValue.innerHTML}</p>`;
                 }
             }
             cardBodyHTML += '</div>';
@@ -82,11 +88,9 @@ async function fetchAndRender() {
         const snapshot = await db.collection('predictions').orderBy('date', 'desc').get();
         allPredictions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         
-        // Populate provider filter dropdown
-        const providers = [...new Set(allPredictions.map(p => p.provider))];
+        const providers = [...new Set(allPredictions.map(p => p.provider).filter(Boolean))];
         providerFilter.innerHTML = '<option value="">All Providers</option>';
         providers.forEach(p => {
-            if (!p) return;
             const option = document.createElement('option');
             option.value = p;
             option.textContent = p;
@@ -104,7 +108,7 @@ function applyFilters() {
     let filtered = [...allPredictions];
     if (tickerFilter.value) { filtered = filtered.filter(p => p.ticker?.toUpperCase().includes(tickerFilter.value.toUpperCase())); }
     if (providerFilter.value) { filtered = filtered.filter(p => p.provider === providerFilter.value); }
-    if (dateFilter.value) { const d = new Date(dateFilter.value).setHours(0,0,0,0); filtered = filtered.filter(p => p.date?.toDate().setHours(0,0,0,0) === d); }
+    if (dateFilter.value) { const d = new Date(dateFilter.value).setHours(0,0,0,0); filtered = filtered.filter(p => p.date?.toDate && p.date.toDate().setHours(0,0,0,0) === d); }
     if (confidenceFilter.value) { filtered = filtered.filter(p => p.confidence === confidenceFilter.value); }
     displayPredictions(filtered);
 }
