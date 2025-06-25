@@ -1,6 +1,6 @@
 // This placeholder will be replaced by our secure deployment process.
 // It is essential that this line is exactly as written.
-const firebaseConfig = __FIREBASE_CONFIG__;
+// const firebaseConfig = __FIREBASE_CONFIG__;
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
