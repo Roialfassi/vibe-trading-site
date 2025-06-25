@@ -1,70 +1,24 @@
-# Dependencies
-node_modules/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Firebase
-.firebase/
-firebase-debug.log
-firestore-debug.log
-ui-debug.log
-database-debug.log
-pubsub-debug.log
-
-# Security - NEVER commit these
-*.serviceAccountKey.json
-*service-account*.json
-*-key.json
 .env
-.env.local
-.env.production
-config.local.js
-secrets/
-credentials/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Build
-dist/
-build/
-.cache/
-
-# Logs
-logs/
-*.log
-
-# Testing
-coverage/
-.nyc_output/
-
-# Temporary files
-tmp/
-temp/
-*.tmp
-
-# Backup files
-*.backup
-*.bak
-
-# Local development
-local-data/
-*.local.*
-
-# Scripts output
-scripts/output/
-scripts/*.json
-
-# Personal notes
-notes.md
-TODO.md
-personal/
