@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Trading Insights | Advanced LLM Predictions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-content">
+            <h1 class="logo-font">Vibe Trading Insights</h1>
+            <p>Next-Generation Stock Predictions, Powered by AI</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="filter-container">
+            <input type="text" id="tickerFilter" placeholder="Filter by Ticker...">
+            <select id="providerFilter">
+                <option value="">All Providers</option>
+                </select>
+            <input type="date" id="dateFilter">
+            <select id="confidenceFilter">
+                <option value="">All Confidence</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+            <button id="resetFiltersBtn">Reset</button>
+        </div>
+
+        <div id="predictionsGrid" class="predictions-grid">
+            </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>For informational purposes only. Not financial advice. &copy; 2025</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
