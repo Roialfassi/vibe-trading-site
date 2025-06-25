@@ -1,0 +1,41 @@
+# Name of the workflow
+name: Deploy Vibe Trading Insights to GitHub Pages
+
+# Run this workflow every time a change is pushed to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+
+# Grant permissions for the workflow to read content and deploy to pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# A workflow run is made up of one or more jobs
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Check out your repository code so the workflow can access it
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Find the placeholder in app.js and replace it with the secret config
+      - name: Inject Firebase Config
+        run: |
+          # This command finds __FIREBASE_CONFIG__ in app.js and replaces it with your secret.
+          # The command is designed to work even if the secret contains special characters.
+          sed -i 's|__FIREBASE_CONFIG__|${{ secrets.FIREBASE_CONFIG }}|g' app.js
+      
+      # 3. Prepare the modified files for deployment
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+          
+      # 4. Deploy the prepared files to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
