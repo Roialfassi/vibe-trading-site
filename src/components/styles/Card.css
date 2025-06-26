@@ -91,8 +91,8 @@
 }
 
 .provider-default {
-  background: var(--accent-primary);
-  color: white;
+  background: rgb(194, 40, 189);
+  color: rgb(255, 248, 248);
 }
 
 .date {
