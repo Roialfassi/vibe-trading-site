@@ -1,34 +1,45 @@
+// src/components/FilterBar.jsx
 import React from "react";
 import "./styles/FilterBar.css";
 
-export default function FilterBar({ filters, setFilters, minDate, maxDate }) {
+export default function FilterBar({
+  filters,
+  setFilters,
+  minDate,
+  maxDate
+}) {
   const providers = Array.from(filters.allProviders).sort();
-  const tickers = Array.from(filters.allTickers).sort();
+  const tickers   = Array.from(filters.allTickers).sort();
 
   const handleReset = () => {
-    setFilters(f => ({
-      ...f,
+    setFilters({
+      ...filters,
       from: minDate,
-      to: maxDate,
+      to:   maxDate,
       provider: "",
-      ticker: ""
-    }));
+      ticker:   "",
+      sortOrder: "desc"
+    });
   };
 
-  const hasActiveFilters = filters.provider || filters.ticker || 
-    filters.from !== minDate || filters.to !== maxDate;
+  const hasActiveFilters =
+    filters.provider ||
+    filters.ticker ||
+    filters.from !== minDate ||
+    filters.to   !== maxDate ||
+    filters.sortOrder !== "desc";
 
   return (
     <div className="filter-container">
       <div className="filter-header">
-        <h2 className="filter-title">Filter Predictions</h2>
+        <h2 className="filter-title">Filter &amp; Sort</h2>
         {hasActiveFilters && (
           <button className="reset-button" onClick={handleReset}>
-            Reset Filters
+            Reset
           </button>
         )}
       </div>
-      
+
       <div className="filter-bar">
         <label>
           Date From
@@ -37,10 +48,12 @@ export default function FilterBar({ filters, setFilters, minDate, maxDate }) {
             value={filters.from}
             min={minDate}
             max={filters.to}
-            onChange={e => setFilters(f => ({ ...f, from: e.target.value }))}
+            onChange={e =>
+              setFilters(f => ({ ...f, from: e.target.value }))
+            }
           />
         </label>
-        
+
         <label>
           Date To
           <input
@@ -48,15 +61,19 @@ export default function FilterBar({ filters, setFilters, minDate, maxDate }) {
             value={filters.to}
             min={filters.from}
             max={maxDate}
-            onChange={e => setFilters(f => ({ ...f, to: e.target.value }))}
+            onChange={e =>
+              setFilters(f => ({ ...f, to: e.target.value }))
+            }
           />
         </label>
-        
+
         <label>
           Provider
           <select
             value={filters.provider}
-            onChange={e => setFilters(f => ({ ...f, provider: e.target.value }))}
+            onChange={e =>
+              setFilters(f => ({ ...f, provider: e.target.value }))
+            }
           >
             <option value="">All Providers</option>
             {providers.map(p => (
@@ -64,17 +81,32 @@ export default function FilterBar({ filters, setFilters, minDate, maxDate }) {
             ))}
           </select>
         </label>
-        
+
         <label>
-          Stock Ticker
+          Ticker
           <select
             value={filters.ticker}
-            onChange={e => setFilters(f => ({ ...f, ticker: e.target.value }))}
+            onChange={e =>
+              setFilters(f => ({ ...f, ticker: e.target.value }))
+            }
           >
             <option value="">All Tickers</option>
             {tickers.map(t => (
               <option key={t} value={t}>{t}</option>
             ))}
+          </select>
+        </label>
+
+        <label>
+          Sort by Date
+          <select
+            value={filters.sortOrder}
+            onChange={e =>
+              setFilters(f => ({ ...f, sortOrder: e.target.value }))
+            }
+          >
+            <option value="desc">Newest First</option>
+            <option value="asc">Oldest First</option>
           </select>
         </label>
       </div>
