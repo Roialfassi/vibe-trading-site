@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/vibe-trading-site/static/css/main.2746873e.css",
-    "main.js": "/vibe-trading-site/static/js/main.c82c275e.js",
+    "main.css": "/vibe-trading-site/static/css/main.47dfaa78.css",
+    "main.js": "/vibe-trading-site/static/js/main.c1cbb51c.js",
     "index.html": "/vibe-trading-site/index.html",
-    "main.2746873e.css.map": "/vibe-trading-site/static/css/main.2746873e.css.map",
-    "main.c82c275e.js.map": "/vibe-trading-site/static/js/main.c82c275e.js.map"
+    "main.47dfaa78.css.map": "/vibe-trading-site/static/css/main.47dfaa78.css.map",
+    "main.c1cbb51c.js.map": "/vibe-trading-site/static/js/main.c1cbb51c.js.map"
   },
   "entrypoints": [
-    "static/css/main.2746873e.css",
-    "static/js/main.c82c275e.js"
+    "static/css/main.47dfaa78.css",
+    "static/js/main.c1cbb51c.js"
   ]
 }
